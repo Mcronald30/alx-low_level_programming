@@ -3,8 +3,7 @@
 #include <time.h>
 
 /**
- * main - A program that prints all possible different combinations of two digits.
- *
+ * main - Entry Points
  * Return: Always 0 (Success)
  */
 int main(void)
@@ -14,14 +13,13 @@ int main(void)
 
 	for (d = '0'; d < '9'; d++)
 	{
-	for (p = d + 1; p <= '9'; f++)
+	for (p = d + 1; p <= '9'; p++)
 	{
 	if (p != d)
 	{
 	putchar(d);
 	putchar(p);
-
-	if (d == '0' && p == '9')
+	if (d == '8' && p == '9')
 	continue;
 	putchar(',');
 	putchar(' ');
@@ -29,6 +27,5 @@ int main(void)
 	}
 	}
 	putchar('\n');
-
 	return (0);
 }
