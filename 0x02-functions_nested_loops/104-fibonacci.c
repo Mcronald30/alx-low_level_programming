@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
+#define LARGEST 10000000000
 
 /**
  * main - a program that finds and prints the first 98 Fibonacci numbers.
