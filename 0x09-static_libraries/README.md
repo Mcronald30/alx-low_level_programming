@@ -1,1 +1,1 @@
-0x09. C - Static libraries Task and explationation
+0x09. C - Static libraries
