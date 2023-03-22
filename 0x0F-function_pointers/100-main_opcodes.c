@@ -1,35 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
-/**
- * main - prints opcode of own main function
- *
- * @argc: argument count
- * @argv: arg value
- * Return: int
- */
-int main(int argc, char *argv[])
-{
-	int x, i;
-	unsigned char *p;
 
+/**
+ * main - function with two arguments
+ * @argc: int type argument count
+ * @argv: char type argument array
+ *
+ * Description: print opcode
+ * Return: na
+ */
+int main(int argc, char **argv)
+{
+	int count;
+
+	count = 0;
 	if (argc != 2)
 	{
 		printf("Error\n");
 		exit(1);
 	}
-	x = atoi(argv[1]);
-	if (x < 0)
+	if (atoi(argv[1]) < 0)
 	{
 		printf("Error\n");
 		exit(2);
 	}
-	p = (unsigned char *)main;
-	i = 0;
-	if (x > 0)
+	while (count < atoi(argv[1]))
 	{
-		while (i < (x - 1))
-			printf("%02hhx ", p[i++]);
-		printf("%hhx\n", p[i]);
+		printf("%02x", *((unsigned char *)main + count));
+		count++;
+		if (atoi(argv[1]) > count)
+		{
+			printf(" ");
+		}
 	}
+	printf("\n");
 	return (0);
 }
