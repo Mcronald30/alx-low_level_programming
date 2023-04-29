@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "main.h"
 
 /**
@@ -5,39 +6,34 @@
  * prints it to the POSIX standard output.
  * @filename: name of the file.
  * @letters: number of characters to read.
- * Return: 0.
+ * Return: 1 for success 0 for failure.
+ * O/w - the actual number of bytes the function can read and print.
  */
+
 ssize_t read_textfile(const char *filename, size_t letters)
 {
-	int file;
-	int length, wrotechars;
-	char *buf;
+	ssize_t o, r, w;
+	char *buffer;
 
-	if (filename == NULL || letters == 0)
-		return (0);
-	buf = malloc(sizeof(char) * (letters));
-	if (buf == NULL)
+	if (filename == NULL)
 		return (0);
 
-	file = open(filename, O_RDONLY);
-	if (file == -1)
-	{
-		free(buf);
+	buffer = malloc(sizeof(char) * letters);
+	if (buffer == NULL)
 		return (0);
-	}
-	length = read(file, buf, letters);
-	if (length == -1)
+
+	o = open(filename, O_RDONLY);
+	r = read(o, buffer, letters);
+	w = write(STDOUT_FILENO, buffer, r);
+
+	if (o == -1 || r == -1 || w == -1 || w != r)
 	{
-		free(buf);
-		close(file);
+		free(buffer);
 		return (0);
 	}
 
-	wrotechars = write(STDOUT_FILENO, buf, length);
+	free(buffer);
+	close(o);
 
-	free(buf);
-	close(file);
-	if (wrotechars != length)
-		return (0);
-	return (length);
+	return (w);
 }
