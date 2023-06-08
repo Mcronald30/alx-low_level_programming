@@ -9,25 +9,25 @@
  */
 hash_table_t *hash_table_create(unsigned long int size)
 {
-	hash_table_t *new_hash = NULL;
+	hash_table_t *ht = NULL;
 	unsigned long int i;
 
-	new_hash = malloc(sizeof(hash_table_t));
-	if (new_hash == NULL)
+	ht = malloc(sizeof(hash_table_t));
+	if (ht == NULL)
 		return (NULL);
 
 	/* Allocate memory for the array */
-	new_hash->array = malloc(sizeof(hash_node_t *) * size);
-	if (new_hash->array == NULL)
+	ht->array = malloc(sizeof(hash_node_t *) * size);
+	if (ht->array == NULL)
 	{
-		free(new_hash);
+		free(ht);
 		return (NULL);
 	}
 
 	/* Initialize each element of the array to NULL */
 	for (i = 0; i < size; i++)
-		new_hash->array[i] = NULL;
+		ht->array[i] = NULL;
 
-	new_hash->size = size;
-	return (new_hash);
+	ht->size = size;
+	return (ht);
 }
