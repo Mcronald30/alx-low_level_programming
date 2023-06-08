@@ -127,7 +127,7 @@ void shash_table_print(const shash_table_t *ht)
 
 	new_ht = ht->shead;
 	printf("{");
-	while (new_ht!= NULL)
+	while (new_ht != NULL)
 	{
 		printf("'%s': '%s'", new_ht->key, new_ht->value);
 		new_ht = new_ht->snext;
@@ -166,7 +166,7 @@ void shash_table_print_rev(const shash_table_t *ht)
  * shash_table_delete - Delete hash table
  * @ht: The hash table to delete
  */
-void shash_table_delete(shash_table_t *ht)
+void shash_table_delete(const shash_table_t *ht)
 {
 	shash_node_t *new_ht, *table;
 	unsigned long int i;
