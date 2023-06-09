@@ -63,7 +63,7 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 		}
 		copy = copy->next;
 	}
-	new_ht = malloc(sizeof(hash_node_t));
+	new_ht = malloc(sizeof(shash_node_t));
 	if (new_ht == NULL)
 		return (0);
 
