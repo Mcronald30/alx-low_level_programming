@@ -121,18 +121,24 @@ char *shash_table_get(const shash_table_t *ht, const char *key)
 void shash_table_print(const shash_table_t *ht)
 {
 	shash_node_t *new_ht;
+	unsigned long int i;
+	int first = 1;
 
 	if (ht == NULL)
 		return;
 
-	new_ht = ht->shead;
 	printf("{");
-	while (new_ht != NULL)
+	for (i = 0; i < ht->size; i++)
 	{
-		printf("'%s': '%s'", new_ht->key, new_ht->value);
-		new_ht = new_ht->snext;
-		if (new_ht != NULL)
-			printf(", ");
+		new_ht = ht->array[i];
+		while (new_ht != NULL)
+		{
+			if (!first)
+				printf(", ");
+			printf("'%s': '%s'", new_ht->key, new_ht->value);
+			first = 0;
+			new_ht = new_ht->next;
+		}
 	}
 	printf("}\n");
 }
@@ -144,19 +150,28 @@ void shash_table_print(const shash_table_t *ht)
  */
 void shash_table_print_rev(const shash_table_t *ht)
 {
-	shash_node_t *new_ht;
+	unsigned long int i = 0, count = 0;
+	shash_node_t *new_ht = NULL;
 
-	if (ht == NULL)
+	if (!ht)
 		return;
 
 	new_ht = ht->stail;
-	printf("{");
 	while (new_ht != NULL)
 	{
-		printf("'%s': '%s'", new_ht->key, new_ht->value);
+		i++;
 		new_ht = new_ht->sprev;
-		if (new_ht != NULL)
+	}
+
+	printf("{");
+	new_ht = ht->stail;
+	while (new_ht != NULL)
+	{
+		count++;
+		printf("'%s': '%s'", new_ht->key, new_ht->value);
+		if (count != i)
 			printf(", ");
+		new_ht = new_ht->sprev;
 	}
 	printf("}\n");
 }
@@ -166,25 +181,26 @@ void shash_table_print_rev(const shash_table_t *ht)
  * shash_table_delete - Delete hash table
  * @ht: The hash table to delete
  */
-void shash_table_delete(const shash_table_t *ht)
+void shash_table_delete(shash_table_t *ht)
 {
-	shash_node_t *new_ht, *table;
-	unsigned long int i;
+	unsigned long int i = 0;
+	shash_node_t *new_ht, *prev = NULL;
 
-	if (ht == NULL)
+	if (!ht)
 		return;
 
-	for (i = 0; i < ht->size; i++)
+	for (; i < ht->size; i++)
 	{
 		new_ht = ht->array[i];
 		while (new_ht != NULL)
 		{
-			table = new_ht;
+			free(new_ht->key);
+			free(new_ht->value);
+			prev = new_ht;
 			new_ht = new_ht->next;
-			free(table->key);
-			free(table->value);
-			free(table);
+			free(prev);
 		}
+		free(new_ht);
 	}
 	free(ht->array);
 	free(ht);
